@@ -1,16 +1,14 @@
 {% extends 'base.html' %}
-
 {% block title %}Cancelar Reserva - SkyBooker{% endblock %}
-
 {% block content %}
-<h2>Cancelar Reserva</h2>
-<div class="alert alert-warning">
-    Tem certeza que deseja cancelar a reserva de <strong>{{ object.cliente.nome }}</strong>
-    no voo <strong>{{ object.voo }}</strong> (Assento {{ object.numero_assento }})?
+<div class="delete-confirm">
+    <h2 style="color:var(--sky-danger);font-size:1.3rem;margin-bottom:1rem;">Cancelar Reserva</h2>
+    <p>Cancelar reserva de <strong>{{ object.cliente.nome }}</strong> no voo <strong>{{ object.voo }}</strong> (Assento {{ object.numero_assento }})?</p>
+    <form method="post">{% csrf_token %}
+        <div class="d-flex gap-2 mt-3">
+            <button type="submit" class="btn btn-sky btn-sky-danger">Confirmar</button>
+            <a href="{% url 'reserva-list' %}" class="btn btn-sky btn-sky-outline">Voltar</a>
+        </div>
+    </form>
 </div>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Confirmar Cancelamento</button>
-    <a href="{% url 'reserva-list' %}" class="btn btn-secondary">Voltar</a>
-</form>
 {% endblock %}

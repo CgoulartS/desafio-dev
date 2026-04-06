@@ -9,62 +9,52 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-sky">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">SkyBooker</a>
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <span class="brand-icon">&#9992;</span> SkyBooker
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 {% if user.is_authenticated %}
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'aviao-list' %}">Avioes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'voo-list' %}">Voos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'cliente-list' %}">Clientes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'reserva-list' %}">Reservas</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'aviao-list' %}">Avioes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'voo-list' %}">Voos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'cliente-list' %}">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'reserva-list' %}">Reservas</a></li>
                 </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <span class="nav-link text-light">{{ user.username }}</span>
-                    </li>
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item"><span class="nav-link">{{ user.username }}</span></li>
                     <li class="nav-item">
                         <form method="post" action="{% url 'logout' %}" class="d-inline">
                             {% csrf_token %}
-                            <button type="submit" class="nav-link btn btn-link" style="border:none;">Sair</button>
+                            <button type="submit" class="btn-logout">Sair</button>
                         </form>
                     </li>
                 </ul>
                 {% else %}
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Entrar</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Entrar</a></li>
                 </ul>
                 {% endif %}
             </div>
         </div>
     </nav>
 
+    {% if messages %}
     <div class="container mt-3">
-        {% if messages %}
         {% for message in messages %}
         <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
             {{ message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
         {% endfor %}
-        {% endif %}
     </div>
+    {% endif %}
 
-    <div class="container mt-4">
+    <div class="main-content">
         {% block content %}{% endblock %}
     </div>
 

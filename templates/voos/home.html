@@ -3,77 +3,78 @@
 {% block title %}SkyBooker - Dashboard{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Dashboard</h2>
+<div class="page-header">
+    <h2>Dashboard</h2>
+</div>
 
-<div class="row mb-4">
-    <div class="col-md-3">
-        <div class="card text-bg-primary">
-            <div class="card-body text-center">
-                <h3>{{ total_avioes }}</h3>
-                <p class="card-text">Avioes</p>
-            </div>
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="stat-card primary">
+            <div class="stat-icon">&#9992;</div>
+            <div class="stat-value">{{ total_avioes }}</div>
+            <div class="stat-label">Avioes</div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card text-bg-success">
-            <div class="card-body text-center">
-                <h3>{{ total_voos }}</h3>
-                <p class="card-text">Voos</p>
-            </div>
+    <div class="col-6 col-md-3">
+        <div class="stat-card success">
+            <div class="stat-icon">&#128747;</div>
+            <div class="stat-value">{{ total_voos }}</div>
+            <div class="stat-label">Voos</div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card text-bg-info">
-            <div class="card-body text-center">
-                <h3>{{ total_clientes }}</h3>
-                <p class="card-text">Clientes</p>
-            </div>
+    <div class="col-6 col-md-3">
+        <div class="stat-card info">
+            <div class="stat-icon">&#128101;</div>
+            <div class="stat-value">{{ total_clientes }}</div>
+            <div class="stat-label">Clientes</div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card text-bg-warning">
-            <div class="card-body text-center">
-                <h3>{{ total_reservas }}</h3>
-                <p class="card-text">Reservas</p>
-            </div>
+    <div class="col-6 col-md-3">
+        <div class="stat-card warning">
+            <div class="stat-icon">&#128196;</div>
+            <div class="stat-value">{{ total_reservas }}</div>
+            <div class="stat-label">Reservas</div>
         </div>
     </div>
 </div>
 
-<div class="row mb-4">
+<div class="row g-3 mb-4">
     <div class="col-md-4">
-        <div class="card">
-            <div class="card-body text-center">
-                <h4>{{ taxa_ocupacao }}%</h4>
-                <p class="card-text">Taxa de Ocupacao Media</p>
-            </div>
+        <div class="stat-card occupancy">
+            <div class="stat-value">{{ taxa_ocupacao }}%</div>
+            <div class="stat-label">Ocupacao Media</div>
         </div>
     </div>
 </div>
 
-<h3>Proximos Voos</h3>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Origem</th>
-            <th>Destino</th>
-            <th>Data</th>
-            <th>Horario</th>
-            <th>Aviao</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for voo in proximos_voos %}
-        <tr>
-            <td>{{ voo.origem }}</td>
-            <td>{{ voo.destino }}</td>
-            <td>{{ voo.data }}</td>
-            <td>{{ voo.horario }}</td>
-            <td>{{ voo.aviao }}</td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="5" class="text-center">Nenhum voo futuro cadastrado.</td></tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="page-header">
+    <h2>Proximos Voos</h2>
+</div>
+
+<div class="sky-table">
+    <table class="table mb-0">
+        <thead>
+            <tr>
+                <th>Origem</th>
+                <th>Destino</th>
+                <th>Data</th>
+                <th>Horario</th>
+                <th>Aviao</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for voo in proximos_voos %}
+            <tr>
+                <td><strong>{{ voo.origem }}</strong></td>
+                <td><strong>{{ voo.destino }}</strong></td>
+                <td>{{ voo.data }}</td>
+                <td>{{ voo.horario }}</td>
+                <td>{{ voo.aviao }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" class="empty-state"><div class="empty-icon">&#9992;</div>Nenhum voo futuro cadastrado.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

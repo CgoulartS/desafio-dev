@@ -1,48 +1,36 @@
 {% extends 'base.html' %}
-
 {% block title %}{% if object %}Editar{% else %}Nova{% endif %} Reserva - SkyBooker{% endblock %}
 
 {% block content %}
-<h2>{% if object %}Editar{% else %}Nova{% endif %} Reserva</h2>
-<form method="post">
-    {% csrf_token %}
-    {% for field in form %}
-    <div class="mb-3">
-        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-        {{ field }}
-        {% if field.errors %}
-        <div class="invalid-feedback d-block">{{ field.errors.0 }}</div>
+<div class="page-header"><h2>{% if object %}Editar{% else %}Nova{% endif %} Reserva</h2></div>
+<div class="sky-form" style="max-width:650px;">
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="mb-3">
+            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}<div class="invalid-feedback d-block">{{ field.errors.0 }}</div>{% endif %}
+        </div>
+        {% if field.name == 'voo' %}
+        <div id="seat-section" class="mb-3" style="display:none;">
+            <label class="form-label">Selecione um assento:</label>
+            <div id="seat-grid"></div>
+            <small class="text-muted mt-2 d-block">
+                <span class="seat-btn available" style="width:16px;height:12px;display:inline-block;border-radius:3px;vertical-align:middle;"></span> Disponivel
+                <span class="seat-btn occupied" style="width:16px;height:12px;display:inline-block;border-radius:3px;vertical-align:middle;margin-left:12px;"></span> Ocupado
+                <span class="seat-btn selected" style="width:16px;height:12px;display:inline-block;border-radius:3px;vertical-align:middle;margin-left:12px;"></span> Selecionado
+            </small>
+        </div>
         {% endif %}
-    </div>
-    {% if field.name == 'voo' %}
-    <div id="seat-section" class="mb-3" style="display:none;">
-        <label class="form-label">Selecione um assento:</label>
-        <div id="seat-grid"></div>
-        <small class="text-muted mt-1 d-block">
-            <span style="color:#28a745;">&#9632;</span> Disponivel
-            <span style="color:#dc3545;" class="ms-2">&#9632;</span> Ocupado
-            <span style="color:#007bff;" class="ms-2">&#9632;</span> Selecionado
-        </small>
-    </div>
-    {% endif %}
-    {% endfor %}
-    {% if form.non_field_errors %}
-    <div class="alert alert-danger">
-        {% for error in form.non_field_errors %}{{ error }}{% endfor %}
-    </div>
-    {% endif %}
-    <button type="submit" class="btn btn-primary">Salvar</button>
-    <a href="{% url 'reserva-list' %}" class="btn btn-secondary">Cancelar</a>
-</form>
-
-<style>
-#seat-grid { display: flex; flex-wrap: wrap; gap: 8px; max-width: 400px; margin-top: 10px; }
-.seat-btn { width: 55px; height: 38px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; }
-.seat-btn.available { background-color: #28a745; color: white; }
-.seat-btn.available:hover { background-color: #218838; }
-.seat-btn.occupied { background-color: #dc3545; color: white; cursor: not-allowed; opacity: 0.7; }
-.seat-btn.selected { background-color: #007bff; color: white; }
-</style>
+        {% endfor %}
+        {% if form.non_field_errors %}<div class="alert alert-danger">{% for e in form.non_field_errors %}{{ e }}{% endfor %}</div>{% endif %}
+        <div class="d-flex gap-2 mt-3">
+            <button type="submit" class="btn btn-sky btn-sky-primary">Salvar</button>
+            <a href="{% url 'reserva-list' %}" class="btn btn-sky btn-sky-outline">Cancelar</a>
+        </div>
+    </form>
+</div>
 
 <script>
 (function() {
@@ -50,16 +38,10 @@
     var seatSection = document.getElementById('seat-section');
     var seatGrid = document.getElementById('seat-grid');
     var assentoInput = document.getElementById('id_numero_assento');
-
     if (!vooSelect) return;
-
     vooSelect.addEventListener('change', function() {
         var vooId = this.value;
-        if (!vooId) {
-            seatSection.style.display = 'none';
-            seatGrid.innerHTML = '';
-            return;
-        }
+        if (!vooId) { seatSection.style.display = 'none'; seatGrid.innerHTML = ''; return; }
         fetch('/voos/' + vooId + '/assentos/')
             .then(function(r) { return r.json(); })
             .then(function(data) {
@@ -79,10 +61,7 @@
                             return function() {
                                 assentoInput.value = num;
                                 var all = seatGrid.querySelectorAll('.seat-btn.selected');
-                                for (var j = 0; j < all.length; j++) {
-                                    all[j].classList.remove('selected');
-                                    all[j].classList.add('available');
-                                }
+                                for (var j = 0; j < all.length; j++) { all[j].classList.remove('selected'); all[j].classList.add('available'); }
                                 this.classList.remove('available');
                                 this.classList.add('selected');
                             };
@@ -92,10 +71,7 @@
                 }
             });
     });
-
-    if (vooSelect.value) {
-        vooSelect.dispatchEvent(new Event('change'));
-    }
+    if (vooSelect.value) { vooSelect.dispatchEvent(new Event('change')); }
 })();
 </script>
 {% endblock %}

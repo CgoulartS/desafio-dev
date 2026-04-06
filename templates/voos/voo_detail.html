@@ -3,40 +3,39 @@
 {% block title %}Voo {{ voo }} - SkyBooker{% endblock %}
 
 {% block content %}
-<h2>Detalhes do Voo</h2>
-<div class="card mb-4">
-    <div class="card-body">
-        <p><strong>Aviao:</strong> {{ voo.aviao }}</p>
-        <p><strong>Origem:</strong> {{ voo.origem }}</p>
-        <p><strong>Destino:</strong> {{ voo.destino }}</p>
-        <p><strong>Data:</strong> {{ voo.data }}</p>
-        <p><strong>Horario:</strong> {{ voo.horario }}</p>
-        <p><strong>Capacidade:</strong> {{ voo.reservas.count }}/{{ voo.aviao.max_passageiros }} passageiros</p>
+<div class="page-header">
+    <h2>Detalhes do Voo</h2>
+    <a href="{% url 'voo-list' %}" class="btn btn-sky btn-sky-outline">Voltar</a>
+</div>
+<div class="sky-form" style="max-width:700px;">
+    <div class="row">
+        <div class="col-6 mb-3"><span class="stat-label">Origem</span><div style="font-size:1.1rem;font-weight:600;">{{ voo.origem }}</div></div>
+        <div class="col-6 mb-3"><span class="stat-label">Destino</span><div style="font-size:1.1rem;font-weight:600;">{{ voo.destino }}</div></div>
+        <div class="col-4 mb-3"><span class="stat-label">Data</span><div>{{ voo.data }}</div></div>
+        <div class="col-4 mb-3"><span class="stat-label">Horario</span><div>{{ voo.horario }}</div></div>
+        <div class="col-4 mb-3"><span class="stat-label">Aviao</span><div>{{ voo.aviao }}</div></div>
+        <div class="col-6 mb-3"><span class="stat-label">Capacidade</span><div>{{ voo.reservas.count }}/{{ voo.aviao.max_passageiros }}</div></div>
     </div>
 </div>
 
-<h3>Passageiros</h3>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Assento</th>
-            <th>Passageiro</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for reserva in voo.reservas.all %}
-        <tr>
-            <td>{{ reserva.numero_assento }}</td>
-            <td>{{ reserva.cliente.nome }}</td>
-            <td>{{ reserva.cliente.email }}</td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="3" class="text-center">Nenhum passageiro neste voo.</td></tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-<a href="{% url 'voo-list' %}" class="btn btn-secondary">Voltar</a>
-<a href="{% url 'reserva-create' %}" class="btn btn-success">Nova Reserva</a>
+<div class="page-header mt-4">
+    <h2>Passageiros</h2>
+    <a href="{% url 'reserva-create' %}" class="btn btn-sky btn-sky-success">+ Nova Reserva</a>
+</div>
+<div class="sky-table">
+    <table class="table mb-0">
+        <thead><tr><th>Assento</th><th>Passageiro</th><th>Email</th></tr></thead>
+        <tbody>
+            {% for reserva in voo.reservas.all %}
+            <tr>
+                <td><strong>{{ reserva.numero_assento }}</strong></td>
+                <td>{{ reserva.cliente.nome }}</td>
+                <td>{{ reserva.cliente.email }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="3" class="empty-state"><div class="empty-icon">&#128186;</div>Nenhum passageiro neste voo.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
