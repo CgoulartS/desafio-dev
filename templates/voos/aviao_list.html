@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Avioes - SkyBooker{% endblock %}
+{% block title %}Aviões - SkyBooker{% endblock %}
 
 {% block content %}
 <div class="page-header">
-    <h2>Avioes</h2>
-    {% if user.is_staff %}<a href="{% url 'aviao-create' %}" class="btn btn-sky btn-sky-success">+ Novo Aviao</a>{% endif %}
+    <h2>Aviões</h2>
+    {% if user.is_staff %}<a href="{% url 'aviao-create' %}" class="btn btn-sky btn-sky-success">+ Novo Avião</a>{% endif %}
 </div>
 <div class="sky-table">
     <table class="table mb-0">
@@ -14,7 +14,7 @@
                 <th>Modelo</th>
                 <th>Fabricante</th>
                 <th>Capacidade</th>
-                {% if user.is_staff %}<th>Acoes</th>{% endif %}
+                {% if user.is_staff %}<th>Ações</th>{% endif %}
             </tr>
         </thead>
         <tbody>
@@ -33,7 +33,7 @@
                 {% endif %}
             </tr>
             {% empty %}
-            <tr><td colspan="4" class="empty-state"><div class="empty-icon">&#9992;</div>Nenhum aviao cadastrado.</td></tr>
+            <tr><td colspan="4" class="empty-state"><div class="empty-icon">&#9992;</div>Nenhum avião cadastrado.</td></tr>
             {% endfor %}
         </tbody>
     </table>

@@ -10,10 +10,10 @@
     <form method="post">
         {% csrf_token %}
         {% if form.errors %}
-        <div class="alert alert-danger">Usuario ou senha invalidos.</div>
+        <div class="alert alert-danger">Usuário ou senha inválidos.</div>
         {% endif %}
         <div class="mb-3">
-            <label for="id_username" class="form-label">Usuario</label>
+            <label for="id_username" class="form-label">Usuário</label>
             <input type="text" name="username" id="id_username" class="form-control" required autofocus>
         </div>
         <div class="mb-3">

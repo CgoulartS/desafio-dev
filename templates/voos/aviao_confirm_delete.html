@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Excluir Aviao - SkyBooker{% endblock %}
+{% block title %}Excluir Avião - SkyBooker{% endblock %}
 
 {% block content %}
 <div class="delete-confirm">
-    <h2 style="color:var(--sky-danger);font-size:1.3rem;margin-bottom:1rem;">Excluir Aviao</h2>
+    <h2 style="color:var(--sky-danger);font-size:1.3rem;margin-bottom:1rem;">Excluir Avião</h2>
     <p>Tem certeza que deseja excluir <strong>{{ object }}</strong>?</p>
     <form method="post">
         {% csrf_token %}
