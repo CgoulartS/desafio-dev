@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Voo {{ voo }} - SkyBooker{% endblock %}
+
+{% block content %}
+<h2>Detalhes do Voo</h2>
+<div class="card mb-4">
+    <div class="card-body">
+        <p><strong>Aviao:</strong> {{ voo.aviao }}</p>
+        <p><strong>Origem:</strong> {{ voo.origem }}</p>
+        <p><strong>Destino:</strong> {{ voo.destino }}</p>
+        <p><strong>Data:</strong> {{ voo.data }}</p>
+        <p><strong>Horario:</strong> {{ voo.horario }}</p>
+        <p><strong>Capacidade:</strong> {{ voo.reservas.count }}/{{ voo.aviao.max_passageiros }} passageiros</p>
+    </div>
+</div>
+
+<h3>Passageiros</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Assento</th>
+            <th>Passageiro</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for reserva in voo.reservas.all %}
+        <tr>
+            <td>{{ reserva.numero_assento }}</td>
+            <td>{{ reserva.cliente.nome }}</td>
+            <td>{{ reserva.cliente.email }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3" class="text-center">Nenhum passageiro neste voo.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'voo-list' %}" class="btn btn-secondary">Voltar</a>
+<a href="{% url 'reserva-create' %}" class="btn btn-success">Nova Reserva</a>
+{% endblock %}

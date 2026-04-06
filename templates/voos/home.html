@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}SkyBooker - Home{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1>SkyBooker</h1>
+    <p class="lead">Sistema de Gerenciamento de Reservas de Voos</p>
+    <hr>
+    <div class="row mt-4">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Avioes</h5>
+                    <p class="card-text">Gerencie a frota de avioes.</p>
+                    <a href="{% url 'aviao-list' %}" class="btn btn-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Voos</h5>
+                    <p class="card-text">Gerencie os voos disponiveis.</p>
+                    <a href="{% url 'voo-list' %}" class="btn btn-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Clientes</h5>
+                    <p class="card-text">Gerencie os clientes.</p>
+                    <a href="{% url 'cliente-list' %}" class="btn btn-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Reservas</h5>
+                    <p class="card-text">Gerencie as reservas de voos.</p>
+                    <a href="{% url 'reserva-list' %}" class="btn btn-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

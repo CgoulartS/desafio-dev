@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Voos - SkyBooker{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Voos</h2>
+    <a href="{% url 'voo-create' %}" class="btn btn-success">Novo Voo</a>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Aviao</th>
+            <th>Origem</th>
+            <th>Destino</th>
+            <th>Data</th>
+            <th>Horario</th>
+            <th>Acoes</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for voo in voos %}
+        <tr>
+            <td>{{ voo.aviao }}</td>
+            <td>{{ voo.origem }}</td>
+            <td>{{ voo.destino }}</td>
+            <td>{{ voo.data }}</td>
+            <td>{{ voo.horario }}</td>
+            <td>
+                <a href="{% url 'voo-detail' voo.pk %}" class="btn btn-sm btn-info">Detalhes</a>
+                <a href="{% url 'voo-update' voo.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="{% url 'voo-delete' voo.pk %}" class="btn btn-sm btn-danger">Excluir</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="text-center">Nenhum voo cadastrado.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

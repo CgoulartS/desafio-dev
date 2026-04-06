@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Logout - SkyBooker{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h2>Voce saiu do sistema</h2>
+    <p><a href="{% url 'login' %}">Entrar novamente</a></p>
+</div>
+{% endblock %}

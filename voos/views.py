@@ -1,0 +1,156 @@
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
+from django.views.generic import (
+    CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView,
+)
+
+from .forms import AviaoForm, ClienteForm, ReservaForm, VooForm
+from .models import Aviao, Cliente, Reserva, Voo
+
+
+class HomeView(LoginRequiredMixin, TemplateView):
+    template_name = 'voos/home.html'
+
+
+# --- Aviao CRUD ---
+
+class AviaoListView(LoginRequiredMixin, ListView):
+    model = Aviao
+    template_name = 'voos/aviao_list.html'
+    context_object_name = 'avioes'
+
+
+class AviaoCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Aviao
+    form_class = AviaoForm
+    template_name = 'voos/aviao_form.html'
+    success_url = reverse_lazy('aviao-list')
+    success_message = 'Aviao cadastrado com sucesso!'
+
+
+class AviaoUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Aviao
+    form_class = AviaoForm
+    template_name = 'voos/aviao_form.html'
+    success_url = reverse_lazy('aviao-list')
+    success_message = 'Aviao atualizado com sucesso!'
+
+
+class AviaoDeleteView(LoginRequiredMixin, DeleteView):
+    model = Aviao
+    template_name = 'voos/aviao_confirm_delete.html'
+    success_url = reverse_lazy('aviao-list')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Aviao excluido com sucesso!')
+        return super().form_valid(form)
+
+
+# --- Voo CRUD ---
+
+class VooListView(LoginRequiredMixin, ListView):
+    model = Voo
+    template_name = 'voos/voo_list.html'
+    context_object_name = 'voos'
+
+
+class VooDetailView(LoginRequiredMixin, DetailView):
+    model = Voo
+    template_name = 'voos/voo_detail.html'
+    context_object_name = 'voo'
+
+
+class VooCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Voo
+    form_class = VooForm
+    template_name = 'voos/voo_form.html'
+    success_url = reverse_lazy('voo-list')
+    success_message = 'Voo cadastrado com sucesso!'
+
+
+class VooUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Voo
+    form_class = VooForm
+    template_name = 'voos/voo_form.html'
+    success_url = reverse_lazy('voo-list')
+    success_message = 'Voo atualizado com sucesso!'
+
+
+class VooDeleteView(LoginRequiredMixin, DeleteView):
+    model = Voo
+    template_name = 'voos/voo_confirm_delete.html'
+    success_url = reverse_lazy('voo-list')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Voo excluido com sucesso!')
+        return super().form_valid(form)
+
+
+# --- Cliente CRUD ---
+
+class ClienteListView(LoginRequiredMixin, ListView):
+    model = Cliente
+    template_name = 'voos/cliente_list.html'
+    context_object_name = 'clientes'
+
+
+class ClienteCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Cliente
+    form_class = ClienteForm
+    template_name = 'voos/cliente_form.html'
+    success_url = reverse_lazy('cliente-list')
+    success_message = 'Cliente cadastrado com sucesso!'
+
+
+class ClienteUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Cliente
+    form_class = ClienteForm
+    template_name = 'voos/cliente_form.html'
+    success_url = reverse_lazy('cliente-list')
+    success_message = 'Cliente atualizado com sucesso!'
+
+
+class ClienteDeleteView(LoginRequiredMixin, DeleteView):
+    model = Cliente
+    template_name = 'voos/cliente_confirm_delete.html'
+    success_url = reverse_lazy('cliente-list')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Cliente excluido com sucesso!')
+        return super().form_valid(form)
+
+
+# --- Reserva CRUD ---
+
+class ReservaListView(LoginRequiredMixin, ListView):
+    model = Reserva
+    template_name = 'voos/reserva_list.html'
+    context_object_name = 'reservas'
+
+
+class ReservaCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Reserva
+    form_class = ReservaForm
+    template_name = 'voos/reserva_form.html'
+    success_url = reverse_lazy('reserva-list')
+    success_message = 'Reserva criada com sucesso!'
+
+
+class ReservaUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Reserva
+    form_class = ReservaForm
+    template_name = 'voos/reserva_form.html'
+    success_url = reverse_lazy('reserva-list')
+    success_message = 'Reserva atualizada com sucesso!'
+
+
+class ReservaDeleteView(LoginRequiredMixin, DeleteView):
+    model = Reserva
+    template_name = 'voos/reserva_confirm_delete.html'
+    success_url = reverse_lazy('reserva-list')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Reserva cancelada com sucesso!')
+        return super().form_valid(form)

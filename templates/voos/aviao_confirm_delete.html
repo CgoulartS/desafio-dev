@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Excluir Aviao - SkyBooker{% endblock %}
+
+{% block content %}
+<h2>Excluir Aviao</h2>
+<div class="alert alert-warning">
+    Tem certeza que deseja excluir o aviao <strong>{{ object }}</strong>?
+</div>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Confirmar Exclusao</button>
+    <a href="{% url 'aviao-list' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

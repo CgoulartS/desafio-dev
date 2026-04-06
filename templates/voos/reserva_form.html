@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar{% else %}Nova{% endif %} Reserva - SkyBooker{% endblock %}
+
+{% block content %}
+<h2>{% if object %}Editar{% else %}Nova{% endif %} Reserva</h2>
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="mb-3">
+        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+        <div class="invalid-feedback d-block">{{ field.errors.0 }}</div>
+        {% endif %}
+    </div>
+    {% endfor %}
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+        {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+    </div>
+    {% endif %}
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a href="{% url 'reserva-list' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}
