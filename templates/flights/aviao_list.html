@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Aviões - SkyBooker{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Aviões</h2>
+    {% if user.is_staff %}<a href="{% url 'aviao-create' %}" class="btn btn-sky btn-sky-success">+ Novo Avião</a>{% endif %}
+</div>
+<div class="sky-table">
+    <table class="table mb-0">
+        <thead>
+            <tr>
+                <th>Modelo</th>
+                <th>Fabricante</th>
+                <th>Capacidade</th>
+                {% if user.is_staff %}<th>Ações</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for aviao in avioes %}
+            <tr>
+                <td><strong>{{ aviao.modelo }}</strong></td>
+                <td>{{ aviao.fabricante }}</td>
+                <td>{{ aviao.max_passageiros }} lugares</td>
+                {% if user.is_staff %}
+                <td>
+                    <div class="action-btns">
+                        <a href="{% url 'aviao-update' aviao.pk %}" class="btn btn-sky btn-sky-warning">Editar</a>
+                        <a href="{% url 'aviao-delete' aviao.pk %}" class="btn btn-sky btn-sky-danger">Excluir</a>
+                    </div>
+                </td>
+                {% endif %}
+            </tr>
+            {% empty %}
+            <tr><td colspan="4" class="empty-state"><div class="empty-icon">&#9992;</div>Nenhum avião cadastrado.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% include 'flights/includes/pagination.html' %}
+{% endblock %}

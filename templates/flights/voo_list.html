@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Voos - SkyBooker{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Voos</h2>
+    {% if user.is_staff %}<a href="{% url 'voo-create' %}" class="btn btn-sky btn-sky-success">+ Novo Voo</a>{% endif %}
+</div>
+<div class="search-bar">
+    <form method="get" class="row g-2 align-items-end">
+        <div class="col-md-4">
+            <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Buscar origem ou destino...">
+        </div>
+        <div class="col-md-3">
+            <input type="date" name="data" value="{{ data_filtro }}" class="form-control">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-sky btn-sky-primary">Buscar</button>
+        </div>
+        {% if q or data_filtro %}
+        <div class="col-auto">
+            <a href="{% url 'voo-list' %}" class="btn btn-sky btn-sky-outline">Limpar</a>
+        </div>
+        {% endif %}
+    </form>
+</div>
+<div class="sky-table">
+    <table class="table mb-0">
+        <thead>
+            <tr><th>Avião</th><th>Origem</th><th>Destino</th><th>Data</th><th>Horário</th><th>Ações</th></tr>
+        </thead>
+        <tbody>
+            {% for voo in voos %}
+            <tr>
+                <td>{{ voo.aviao }}</td>
+                <td><strong>{{ voo.origem }}</strong></td>
+                <td><strong>{{ voo.destino }}</strong></td>
+                <td>{{ voo.data }}</td>
+                <td>{{ voo.horario }}</td>
+                <td>
+                    <div class="action-btns">
+                        <a href="{% url 'voo-detail' voo.pk %}" class="btn btn-sky btn-sky-info">Detalhes</a>
+                        {% if user.is_staff %}
+                        <a href="{% url 'voo-update' voo.pk %}" class="btn btn-sky btn-sky-warning">Editar</a>
+                        <a href="{% url 'voo-delete' voo.pk %}" class="btn btn-sky btn-sky-danger">Excluir</a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6" class="empty-state"><div class="empty-icon">&#128747;</div>Nenhum voo encontrado.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% include 'flights/includes/pagination.html' %}
+{% endblock %}

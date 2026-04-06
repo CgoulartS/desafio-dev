@@ -22,7 +22,7 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'aviao-list' %}">Aviões</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'voo-list' %}">Voos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'cliente-list' %}">Clientes</a></li>
+                    {% if user.is_staff %}<li class="nav-item"><a class="nav-link" href="{% url 'cliente-list' %}">Clientes</a></li>{% endif %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'reserva-list' %}">Reservas</a></li>
                 </ul>
                 <ul class="navbar-nav align-items-center">
