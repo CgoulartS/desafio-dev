@@ -7,6 +7,21 @@
     <h2>Clientes</h2>
     <a href="{% url 'cliente-create' %}" class="btn btn-success">Novo Cliente</a>
 </div>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-5">
+        <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Buscar por nome, email ou CPF...">
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+    {% if q %}
+    <div class="col-md-2">
+        <a href="{% url 'cliente-list' %}" class="btn btn-secondary">Limpar</a>
+    </div>
+    {% endif %}
+</form>
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -30,8 +45,9 @@
             </td>
         </tr>
         {% empty %}
-        <tr><td colspan="5" class="text-center">Nenhum cliente cadastrado.</td></tr>
+        <tr><td colspan="5" class="text-center">Nenhum cliente encontrado.</td></tr>
         {% endfor %}
     </tbody>
 </table>
+{% include 'voos/includes/pagination.html' %}
 {% endblock %}

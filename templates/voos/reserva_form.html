@@ -14,6 +14,17 @@
         <div class="invalid-feedback d-block">{{ field.errors.0 }}</div>
         {% endif %}
     </div>
+    {% if field.name == 'voo' %}
+    <div id="seat-section" class="mb-3" style="display:none;">
+        <label class="form-label">Selecione um assento:</label>
+        <div id="seat-grid"></div>
+        <small class="text-muted mt-1 d-block">
+            <span style="color:#28a745;">&#9632;</span> Disponivel
+            <span style="color:#dc3545;" class="ms-2">&#9632;</span> Ocupado
+            <span style="color:#007bff;" class="ms-2">&#9632;</span> Selecionado
+        </small>
+    </div>
+    {% endif %}
     {% endfor %}
     {% if form.non_field_errors %}
     <div class="alert alert-danger">
@@ -23,4 +34,68 @@
     <button type="submit" class="btn btn-primary">Salvar</button>
     <a href="{% url 'reserva-list' %}" class="btn btn-secondary">Cancelar</a>
 </form>
+
+<style>
+#seat-grid { display: flex; flex-wrap: wrap; gap: 8px; max-width: 400px; margin-top: 10px; }
+.seat-btn { width: 55px; height: 38px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; }
+.seat-btn.available { background-color: #28a745; color: white; }
+.seat-btn.available:hover { background-color: #218838; }
+.seat-btn.occupied { background-color: #dc3545; color: white; cursor: not-allowed; opacity: 0.7; }
+.seat-btn.selected { background-color: #007bff; color: white; }
+</style>
+
+<script>
+(function() {
+    var vooSelect = document.getElementById('id_voo');
+    var seatSection = document.getElementById('seat-section');
+    var seatGrid = document.getElementById('seat-grid');
+    var assentoInput = document.getElementById('id_numero_assento');
+
+    if (!vooSelect) return;
+
+    vooSelect.addEventListener('change', function() {
+        var vooId = this.value;
+        if (!vooId) {
+            seatSection.style.display = 'none';
+            seatGrid.innerHTML = '';
+            return;
+        }
+        fetch('/voos/' + vooId + '/assentos/')
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                seatGrid.innerHTML = '';
+                seatSection.style.display = 'block';
+                for (var i = 1; i <= data.max_passageiros; i++) {
+                    var btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.textContent = i;
+                    btn.className = 'seat-btn';
+                    if (data.assentos_ocupados.indexOf(i) !== -1) {
+                        btn.classList.add('occupied');
+                        btn.disabled = true;
+                    } else {
+                        btn.classList.add('available');
+                        btn.addEventListener('click', (function(num) {
+                            return function() {
+                                assentoInput.value = num;
+                                var all = seatGrid.querySelectorAll('.seat-btn.selected');
+                                for (var j = 0; j < all.length; j++) {
+                                    all[j].classList.remove('selected');
+                                    all[j].classList.add('available');
+                                }
+                                this.classList.remove('available');
+                                this.classList.add('selected');
+                            };
+                        })(i));
+                    }
+                    seatGrid.appendChild(btn);
+                }
+            });
+    });
+
+    if (vooSelect.value) {
+        vooSelect.dispatchEvent(new Event('change'));
+    }
+})();
+</script>
 {% endblock %}

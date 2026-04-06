@@ -14,6 +14,7 @@ urlpatterns = [
     path('voos/<int:pk>/', views.VooDetailView.as_view(), name='voo-detail'),
     path('voos/<int:pk>/editar/', views.VooUpdateView.as_view(), name='voo-update'),
     path('voos/<int:pk>/excluir/', views.VooDeleteView.as_view(), name='voo-delete'),
+    path('voos/<int:pk>/assentos/', views.VooAssentosView.as_view(), name='voo-assentos'),
     # Clientes
     path('clientes/', views.ClienteListView.as_view(), name='cliente-list'),
     path('clientes/novo/', views.ClienteCreateView.as_view(), name='cliente-create'),

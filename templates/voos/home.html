@@ -1,49 +1,79 @@
 {% extends 'base.html' %}
 
-{% block title %}SkyBooker - Home{% endblock %}
+{% block title %}SkyBooker - Dashboard{% endblock %}
 
 {% block content %}
-<div class="text-center">
-    <h1>SkyBooker</h1>
-    <p class="lead">Sistema de Gerenciamento de Reservas de Voos</p>
-    <hr>
-    <div class="row mt-4">
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Avioes</h5>
-                    <p class="card-text">Gerencie a frota de avioes.</p>
-                    <a href="{% url 'aviao-list' %}" class="btn btn-primary">Acessar</a>
-                </div>
+<h2 class="mb-4">Dashboard</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-bg-primary">
+            <div class="card-body text-center">
+                <h3>{{ total_avioes }}</h3>
+                <p class="card-text">Avioes</p>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Voos</h5>
-                    <p class="card-text">Gerencie os voos disponiveis.</p>
-                    <a href="{% url 'voo-list' %}" class="btn btn-primary">Acessar</a>
-                </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-success">
+            <div class="card-body text-center">
+                <h3>{{ total_voos }}</h3>
+                <p class="card-text">Voos</p>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Clientes</h5>
-                    <p class="card-text">Gerencie os clientes.</p>
-                    <a href="{% url 'cliente-list' %}" class="btn btn-primary">Acessar</a>
-                </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-info">
+            <div class="card-body text-center">
+                <h3>{{ total_clientes }}</h3>
+                <p class="card-text">Clientes</p>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Reservas</h5>
-                    <p class="card-text">Gerencie as reservas de voos.</p>
-                    <a href="{% url 'reserva-list' %}" class="btn btn-primary">Acessar</a>
-                </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-warning">
+            <div class="card-body text-center">
+                <h3>{{ total_reservas }}</h3>
+                <p class="card-text">Reservas</p>
             </div>
         </div>
     </div>
 </div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4>{{ taxa_ocupacao }}%</h4>
+                <p class="card-text">Taxa de Ocupacao Media</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>Proximos Voos</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Origem</th>
+            <th>Destino</th>
+            <th>Data</th>
+            <th>Horario</th>
+            <th>Aviao</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for voo in proximos_voos %}
+        <tr>
+            <td>{{ voo.origem }}</td>
+            <td>{{ voo.destino }}</td>
+            <td>{{ voo.data }}</td>
+            <td>{{ voo.horario }}</td>
+            <td>{{ voo.aviao }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" class="text-center">Nenhum voo futuro cadastrado.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

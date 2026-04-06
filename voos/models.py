@@ -9,6 +9,7 @@ class Aviao(models.Model):
 
     class Meta:
         verbose_name_plural = 'Avioes'
+        ordering = ['fabricante', 'modelo']
 
     def __str__(self):
         return f'{self.fabricante} {self.modelo}'
@@ -23,6 +24,7 @@ class Voo(models.Model):
 
     class Meta:
         verbose_name_plural = 'Voos'
+        ordering = ['data', 'horario']
 
     def __str__(self):
         return f'{self.origem} -> {self.destino} ({self.data})'
@@ -33,6 +35,9 @@ class Cliente(models.Model):
     email = models.EmailField(unique=True)
     cpf = models.CharField(max_length=11, unique=True)
     telefone = models.CharField(max_length=20)
+
+    class Meta:
+        ordering = ['nome']
 
     def __str__(self):
         return self.nome
@@ -45,6 +50,7 @@ class Reserva(models.Model):
     criado_em = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        ordering = ['-criado_em']
         constraints = [
             UniqueConstraint(fields=['voo', 'numero_assento'], name='unique_assento_por_voo'),
             UniqueConstraint(fields=['voo', 'cliente'], name='unique_cliente_por_voo'),

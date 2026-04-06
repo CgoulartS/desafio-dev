@@ -276,6 +276,83 @@ Implementar os CRUDs restantes (Voos, Clientes, Reservas) com todas as regras de
 
 ---
 
+## Epic 3: Diferenciais Competitivos
+
+**Goal:** Adicionar funcionalidades que diferenciem a aplicacao dos demais candidatos: dashboard com metricas, filtros/busca nas listagens, paginacao e selecao visual de assentos. Ao final, o sistema tera UX profissional e funcionalidades alem do basico pedido.
+
+### Requisitos Adicionais
+
+- **FR-14:** O sistema deve exibir um dashboard na home com metricas: total de avioes, voos, clientes, reservas e taxa de ocupacao media
+- **FR-15:** O sistema deve permitir filtrar/buscar voos por origem, destino e data
+- **FR-16:** O sistema deve permitir buscar clientes por nome, email ou CPF
+- **FR-17:** Todas as listagens devem ter paginacao (10 itens por pagina)
+- **FR-18:** O formulario de reserva deve exibir visualmente os assentos disponiveis e ocupados do voo selecionado
+
+### Story 3.1: Dashboard com Metricas
+
+> Como usuario do sistema,
+> eu quero ver um painel na pagina inicial com metricas do sistema,
+> para que eu tenha uma visao geral rapida da operacao.
+
+**Acceptance Criteria:**
+
+1. Home (`/`) exibe cards com: total de avioes, total de voos, total de clientes, total de reservas
+2. Home exibe taxa de ocupacao media dos voos (reservas/capacidade * 100)
+3. Home exibe lista dos proximos 5 voos (ordenados por data)
+4. Dados calculados via context no HomeView (sem queries N+1)
+5. Layout responsivo com Bootstrap cards
+6. Testes para verificar que metricas sao calculadas corretamente (min. 3 testes)
+
+### Story 3.2: Filtros e Busca nas Listagens
+
+> Como usuario do sistema,
+> eu quero filtrar e buscar registros nas listagens,
+> para que eu encontre rapidamente o que preciso.
+
+**Acceptance Criteria:**
+
+1. Lista de voos (`/voos/`) com campo de busca por origem ou destino
+2. Lista de voos com filtro por data (input type="date")
+3. Lista de clientes (`/clientes/`) com campo de busca por nome, email ou CPF
+4. Busca via GET parameters (ex: `/voos/?q=GRU&data=2026-06-15`)
+5. Filtros preservados na paginacao
+6. Override de `get_queryset()` nas ListViews com filtro por `request.GET`
+7. Testes para busca e filtro (min. 4 testes)
+
+### Story 3.3: Paginacao nas Listagens
+
+> Como usuario do sistema,
+> eu quero que as listagens tenham paginacao,
+> para que o sistema funcione bem mesmo com muitos registros.
+
+**Acceptance Criteria:**
+
+1. Todas as 4 ListViews (avioes, voos, clientes, reservas) com `paginate_by = 10`
+2. Componente de paginacao Bootstrap nos templates de lista
+3. Paginacao preserva filtros de busca (query string mantida)
+4. Links de primeira, anterior, proxima, ultima pagina
+5. Indicador "Pagina X de Y"
+6. Testes de paginacao (min. 2 testes)
+
+### Story 3.4: Selecao Visual de Assentos
+
+> Como usuario do sistema,
+> eu quero ver um mapa visual dos assentos ao criar uma reserva,
+> para que eu saiba quais assentos estao disponiveis e escolha facilmente.
+
+**Acceptance Criteria:**
+
+1. Ao selecionar um voo no formulario de reserva, exibir grid visual de assentos
+2. Assentos ocupados em vermelho (nao clicaveis), disponiveis em verde (clicaveis)
+3. Ao clicar num assento disponivel, preencher automaticamente o campo `numero_assento`
+4. Grid gerado dinamicamente via AJAX (endpoint `/voos/<id>/assentos/`) retornando JSON
+5. Endpoint retorna lista de assentos com status (disponivel/ocupado)
+6. Layout: grid com 3 assentos por fileira (ajustavel conforme capacidade do aviao)
+7. JavaScript vanilla (sem dependencias adicionais)
+8. Testes para o endpoint de assentos (min. 3 testes)
+
+---
+
 ## Next Steps
 
 ### UX Expert Prompt
