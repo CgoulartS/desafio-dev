@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Pagina nao encontrada - SkyBooker{% endblock %}
+
+{% block content %}
+<div class="text-center mt-5">
+    <h1 class="display-1 text-warning">404</h1>
+    <h2>Pagina nao encontrada</h2>
+    <p class="lead">A pagina que voce procura nao existe.</p>
+    <a href="{% url 'home' %}" class="btn btn-primary mt-3">Voltar ao Dashboard</a>
+</div>
+{% endblock %}
